@@ -1,0 +1,91 @@
+{
+  "generators": [
+    {
+      "topic": "customers_all",
+      "value": {
+        "customerId": {
+          "_gen": "uuid"
+        },
+        "name": {
+          "_gen": "string",
+          "expr": "#{Name.full_name}"
+        },
+        "zone": {
+          "_gen": "weightedOneOf",
+          "choices": [
+            {
+              "weight": 20,
+              "value": "zone 1"
+            },
+            {
+              "weight": 40,
+              "value": "zone 2"
+            },
+            {
+              "weight": 10,
+              "value": "zone 3"
+            }
+          ]
+        },
+        "address": {
+          "_gen": "string",
+          "expr": "#{Address.full_address}"
+        },
+        "membership": {
+          "_gen": "oneOf",
+          "choices": [
+            "bronze",
+            "silver",
+            "gold"
+          ]
+        }
+      }
+    },
+    {
+      "topic": "orders_all",
+      "value": {
+        "orderId": {
+          "_gen": "uuid"
+        },
+        "customerId": {
+          "_gen": "lookup",
+          "topic": "customers_all",
+          "path": [
+            "value",
+            "customerId"
+          ]
+        },
+        "orderDate": {
+          "_gen": "formatDateTime",
+          "ms": {
+            "_gen": "now"
+          },
+          "format": "yyyy-MM-dd"
+        },
+        "cost": {
+          "_gen": "normalDistribution",
+          "mean": 50,
+          "sd": 20,
+          "decimals": 2
+        },
+        "creditCardNumber": {
+          "_gen": "string",
+          "expr": "#{Business.credit_card_number}"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "confluent_cloud": {
+      "kind": "kafka",
+      "producerConfigs": {
+        "security.protocol": "SASL_SSL",
+        "sasl.mechanism": "PLAIN",
+        "sasl.jaas.config": "org.apache.kafka.common.security.plain.PlainLoginModule required username='redacted' password='redacted';",
+        "bootstrap.servers": "pkc-#####.region.host.confluent.cloud:9092",
+        "value.serializer": "io.shadowtraffic.kafka.serdes.JsonSerializer",
+        "key.serializer": "io.shadowtraffic.kafka.serdes.JsonSerializer"
+      }
+    }
+  }
+}
