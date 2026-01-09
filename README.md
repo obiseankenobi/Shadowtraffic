@@ -6,7 +6,7 @@ Update to latest ShadowTraffic.io  version to get all updates.
 docker pull shadowtraffic/shadowtraffic:latest
 ```
 
-Make sure `license.env` us current and license is valid. 
+Make sure `license.env` is current and license is valid. 
 
 Create  a config file to connect to Confluent Cloud
 
