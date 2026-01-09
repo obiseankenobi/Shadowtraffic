@@ -32,7 +32,7 @@ Example of a valid run
 2026-01-09 19:34:57.964 [INFO] [main] org.apache.kafka.common.config.AbstractConfig - ProducerConfig values:
 	acks = -1
 	batch.size = 16384
-	bootstrap.servers = [pkc-rgm37.us-west-2.aws.confluent.cloud:9092]
+	bootstrap.servers = [pkc-#####.us-west-2.aws.confluent.cloud:9092]
 	buffer.memory = 33554432
 	client.dns.lookup = use_all_dns_ips
 	client.id = producer-1
